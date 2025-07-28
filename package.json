@@ -1,0 +1,24 @@
+{
+  "name": "sodis-perosnal-folder",
+  "version": "1.0.0",
+  "main": "newFile.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "install": "^0.13.0",
+    "node": "^20.19.4",
+    "npm": "^11.4.2",
+    "server.js": "^1.0.0"
+  },
+  "description": ""
+}

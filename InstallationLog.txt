@@ -1,0 +1,105 @@
+************************************* Invoked: Tue Jul 15 18:05:26 2025
+[0] Arguments: C:\Users\sodis mirzada\Downloads\gpt4all-installer-win64.exe
+[42] Operations sanity check succeeded.
+[61] Using metadata cache from "C:/Users/sodis mirzada/AppData/Local/cache\\qt-installer-framework\\9c11e018-d3aa-3c3a-9118-829c9ab85b1c"
+[62] Found 1 cached items.
+[62] Language: en-US
+[265] Loaded control script ":/metadata/installer-config/installer_control_qs.qs"
+[265] Using control script: ":/metadata/installer-config/installer_control_qs.qs"
+[5278] Fetching latest update information...
+[5288] Downloading 1 items to cache.
+[5288] Retrieving information from remote repositories...
+[5675] Loading component scripts...
+[19906] TargetDirectoryInUse : Error : The directory you selected already exists and contains an installation. Choose a different target for installation.
+[29344] TargetDirectoryInUse : Error : The directory you selected already exists and contains an installation. Choose a different target for installation.
+[34030] TargetDirectoryInUse : Error : The directory you selected already exists and contains an installation. Choose a different target for installation.
+[68887] OverwriteTargetDirectory : Warning : You have selected an existing, non-empty directory for installation.
+Note that it will be completely wiped on uninstallation of this application.
+It is not advisable to install into this directory as installation might fail.
+Do you want to continue? Yes|No
+[80773] Loading component scripts...
+[273211] cancelInstallation : GPT4All Installer Question : Do you want to quit the installer application? Yes|No
+[324318] OverwriteTargetDirectory : Warning : You have selected an existing, non-empty directory for installation.
+Note that it will be completely wiped on uninstallation of this application.
+It is not advisable to install into this directory as installation might fail.
+Do you want to continue? Yes|No
+[328574] Loading component scripts...
+[395823] Selected components without dependencies:
+gpt4all
+[395824] Installation space required: "2.02 GB" Temporary space required: "933.97 MB" Local repository size: "0.00 bytes"
+[395831] Cache and install directories are on the same volume. Volume mount point: "C:\\" Free space available: "384.56 GB"
+[397797] backup  operation: Mkdir
+[397797] 	- arguments: C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder
+[397798] Done
+[397799] perform  operation: Mkdir
+[397799] 	- arguments: C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder
+[397799] Done
+[397801] Preparing the installation...
+[397801] Install size: 1 components
+[397804] Downloading packages...
+[397805] Downloading archive "3.10.0bin.7z.sha1" for component gpt4all.
+[398112] Downloading archive "3.10.0bin.7z" for component gpt4all.
+[403622] Downloading archive "3.10.0lib.7z.sha1" for component gpt4all.
+[403913] Downloading archive "3.10.0lib.7z" for component gpt4all.
+[441710] Downloading archive "3.10.0resources.7z.sha1" for component gpt4all.
+[441870] Downloading archive "3.10.0resources.7z" for component gpt4all.
+[465336] Downloading archive "3.10.0content.7z.sha1" for component gpt4all.
+[465587] Downloading archive "3.10.0content.7z" for component gpt4all.
+[465917] Preparing to unpack components...
+[465937] backup gpt4all concurrent operation: Extract
+[465937] 	- arguments: installer://gpt4all/3.10.0bin.7z, C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder
+[465937] Started
+[465937] backup gpt4all concurrent operation: Extract
+[465937] 	- arguments: installer://gpt4all/3.10.0content.7z, C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder
+[465937] Started
+[465938] backup gpt4all concurrent operation: Extract
+[465938] 	- arguments: installer://gpt4all/3.10.0lib.7z, C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder
+[465938] Started
+[465938] backup gpt4all concurrent operation: Extract
+[465938] 	- arguments: installer://gpt4all/3.10.0resources.7z, C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder
+[465938] Started
+[466005] Unpacking components...
+[466011] perform gpt4all concurrent operation: Extract
+[466011] 	- arguments: installer://gpt4all/3.10.0lib.7z, C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder
+[466011] Started
+[466011] perform gpt4all concurrent operation: Extract
+[466011] 	- arguments: installer://gpt4all/3.10.0resources.7z, C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder
+[466011] Started
+[466011] perform gpt4all concurrent operation: Extract
+[466011] 	- arguments: installer://gpt4all/3.10.0bin.7z, C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder
+[466011] Started
+[466028] perform gpt4all concurrent operation: Extract
+[466028] 	- arguments: installer://gpt4all/3.10.0content.7z, C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder
+[466028] Started
+[518853] Installing component gpt4all
+[518858] backup gpt4all operation: CreateShortcut
+[518858] 	- arguments: C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder/bin/chat.exe, C:\Users\sodis mirzada/Desktop/GPT4All.lnk, workingDirectory=C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder/bin, iconPath=C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder/gpt4all.ico, iconId=0, description=Open GPT4All
+[518859] Done
+[518861] perform gpt4all operation: CreateShortcut
+[518861] 	- arguments: C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder/bin/chat.exe, C:\Users\sodis mirzada/Desktop/GPT4All.lnk
+[519159] Done
+[519160] backup gpt4all operation: CreateShortcut
+[519160] 	- arguments: C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder/bin/chat.exe, C:\Users\sodis mirzada\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\EcoBot GPT/GPT4All.lnk, workingDirectory=C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder/bin, iconPath=C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder/gpt4all.ico, iconId=0, description=Open GPT4All
+[519161] Done
+[519161] perform gpt4all operation: CreateShortcut
+[519161] 	- arguments: C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder/bin/chat.exe, C:\Users\sodis mirzada\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\EcoBot GPT/GPT4All.lnk
+[519254] Done
+[519256] backup gpt4all operation: License
+[519256] 	- arguments:
+[519256] Done
+[519256] perform gpt4all operation: License
+[519256] 	- arguments:
+[519264] Done
+[519290] Writing maintenance tool: "C:/Users/sodis mirzada/OneDrive/Desktop/sodis perosnal folder/maintenancetool.exe.new"
+[519290] Writing maintenance tool.
+[519534] Wrote permissions for maintenance tool.
+[519909] Maintenance tool hard restart: false.
+[519920] Installation finished!
+************************************* Invoked: Sat Jul 26 14:12:29 2025
+[0] Arguments: C:\Users\sodis mirzada\OneDrive\Desktop\sodis perosnal folder\maintenancetool.exe
+[391] Operations sanity check succeeded.
+[444] Using metadata cache from "C:/Users/sodis mirzada/AppData/Local/cache\\qt-installer-framework\\9c11e018-d3aa-3c3a-9118-829c9ab85b1c"
+[444] Found 1 cached items.
+[447] Language: en-US
+[536] Loaded control script ":/metadata/installer-config/installer_control_qs.qs"
+[536] Using control script: ":/metadata/installer-config/installer_control_qs.qs"

@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EcoBot 🌍 - Planet Protectors</title>
+  <style>
+    :root {
+      /* Default theme (eco) */
+      --bg-gradient: linear-gradient(135deg, #020024, #090979, #00d4ff);
+      --container-bg: rgba(0,0,0,0.5);
+      --text-color: white;
+      --accent-color: #00ffaa;
+      --card-bg: rgba(255, 255, 255, 0.1);
+      --border-color: #fff;
+      --shadow-color: rgba(0, 255, 170, 0.3);
+    }
+
+    [data-theme="dark"] {
+      --bg-gradient: linear-gradient(135deg, #1a1a1a, #2d2d2d, #404040);
+      --container-bg: rgba(20,20,20,0.8);
+      --text-color: #e0e0e0;
+      --accent-color: #bb86fc;
+      --card-bg: rgba(40, 40, 40, 0.9);
+      --border-color: #bb86fc;
+      --shadow-color: rgba(187, 134, 252, 0.3);
+    }
+
+    [data-theme="light"] {
+      --bg-gradient: linear-gradient(135deg, #f0f8ff, #e6f3ff, #cce7ff);
+      --container-bg: rgba(255,255,255,0.9);
+      --text-color: #333;
+      --accent-color: #007acc;
+      --card-bg: rgba(255, 255, 255, 0.8);
+      --border-color: #007acc;
+      --shadow-color: rgba(0, 122, 204, 0.3);
+    }
+
+    [data-theme="forest"] {
+      --bg-gradient: linear-gradient(135deg, #0d4f3c, #2d5a3d, #4a7c59);
+      --container-bg: rgba(13, 79, 60, 0.8);
+      --text-color: #e8f5e8;
+      --accent-color: #7cb342;
+      --card-bg: rgba(45, 90, 61, 0.9);
+      --border-color: #7cb342;
+      --shadow-color: rgba(124, 179, 66, 0.3);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg-gradient);
+      overflow-x: hidden;
+      perspective: 1200px;
+      color: var(--text-color);
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.5s ease;
+      min-height: 100vh;
+    }
+
+    /* Floating particles background */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--accent-color);
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: float 6s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    /* Theme switcher */
+    .theme-switcher {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      gap: 10px;
+    }
+
+    .theme-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      transform-style: preserve-3d;
+      box-shadow: 0 4px 8px var(--shadow-color);
+    }
+
+    .theme-btn:hover {
+      transform: translateY(-2px) scale(1.1);
+      box-shadow: 0 8px 16px var(--shadow-color);
+    }
+
+    .theme-eco { background: linear-gradient(45deg, #00d4ff, #00ffaa); }
+    .theme-dark { background: linear-gradient(45deg, #2d2d2d, #bb86fc); }
+    .theme-light { background: linear-gradient(45deg, #f0f8ff, #007acc); }
+    .theme-forest { background: linear-gradient(45deg, #4a7c59, #7cb342); }
+
+    /* Music controls */
+    .music-controls {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .music-btn {
+      width: 50px;
+      height: 50px;
+      border: 2px solid var(--accent-color);
+      background: var(--container-bg);
+      border-radius: 50%;
+      color: var(--accent-color);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    .music-btn:hover {
+      transform: scale(1.1) rotateZ(10deg);
+      box-shadow: 0 0 20px var(--accent-color);
+    }
+
+    .volume-slider {
+      width: 100px;
+      height: 5px;
+      background: var(--container-bg);
+      border-radius: 5px;
+      outline: none;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+
+    .volume-slider:hover {
+      opacity: 1;
+    }
+
+    /* Enhanced container with better 3D effects */
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: var(--container-bg);
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 
+        0 20px 40px var(--shadow-color),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+      transform-style: preserve-3d;
+      transition: all 0.5s ease;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .container:hover {
+      transform: translateY(-5px) rotateX(2deg);
+      box-shadow: 
+        0 30px 60px var(--shadow-color),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+
+    /* Enhanced 3D Card styles */
+    .eco-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      transform-style: preserve-3d;
+    }
+
+    .eco-card {
+      width: 400px;
+      height: 300px;
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 20px;
+      box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.3),
+        0 10px 20px var(--shadow-color);
+      backdrop-filter: blur(15px);
+      transform: rotateY(15deg) rotateX(5deg);
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .eco-card:hover {
+      transform: rotateY(0deg) rotateX(0deg) scale(1.05);
+    }
+
+    .eco-title {
+      font-size: 2rem;
+      text-shadow: 2px 2px 8px #000;
+    }
+
+    /* Buttons */
+    input, select, button, textarea {
+      margin: 0.5rem;
+      padding: 0.6rem;
+      border-radius: 0.5rem;
+      border: none;
+      width: 80%;
+      font-size: 1rem;
+    }
+
+    button, .eco-button {
+      background-color: #00ffaa;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 15px 30px;
+      font-size: 1rem;
+      color: #000;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,255,204,0.4);
+      transition: transform 0.3s;
+    }
+
+    button:hover, .eco-button:hover {
+      background-color: #00ddaa;
+      transform: scale(1.1) rotateZ(2deg);
+    }
+
+    .hidden { display: none; }
+    .footer {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: #ccc;
+    }
+
+    /* Existing boxes styling */
+    .chatbox, .quizbox, .probox, .createbox, .chatroom, .settingsbox, .leaderbox, .infoBox {
+      margin-top: 2rem;
+      background-color: #012433;
+      padding: 1rem;
+      border-radius: 1rem;
+    }
+  </style>
+</head>
+<body data-theme="eco">
+  <!-- Floating particles background -->
+  <div class="particles" id="particles"></div>
+  
+  <!-- Theme switcher -->
+  <div class="theme-switcher">
+    <button class="theme-btn theme-eco" onclick="switchTheme('eco')" title="Eco Theme"></button>
+    <button class="theme-btn theme-dark" onclick="switchTheme('dark')" title="Dark Theme"></button>
+    <button class="theme-btn theme-light" onclick="switchTheme('light')" title="Light Theme"></button>
+    <button class="theme-btn theme-forest" onclick="switchTheme('forest')" title="Forest Theme"></button>
+  </div>
+  
+  <!-- Music controls -->
+  <div class="music-controls">
+    <button class="music-btn" onclick="toggleMusic()" id="musicBtn" title="Play/Pause Music">🎵</button>
+    <input type="range" class="volume-slider" min="0" max="100" value="50" onchange="setVolume(this.value)" title="Volume">
+  </div>
+  
+  <!-- Hidden audio element for background music -->
+  <audio id="backgroundMusic" loop>
+    <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    <!-- Fallback to a nature sounds URL -->
+    <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEcBT2a2+/EcyMFl2+z9N2QQAoUXrTp66hVFApGn+DyvmEcBT2a2+/EcyMFl2+z9N2QQAoUXrTp66hVFApGn+DyvmEcBT2a2+/EcyMFl2+z9N2QQAoUXrTp66hVFApGn+DyvmEcBT2a2+/EcyMFl2+z9N2QQAoUXrTp66hVFApGn+DyvmEcBT2a2+/EcyMFl2+z9N2QQAoUXrTp66hVFApGn+DyvmEcBT2a2+/EcyMFl2+z9N2QQAoUXrTp66hVFApGn+DyvmEcBT2a2+/EcyMFl2+z9N2QQAoUXrTp66hVFApGn+DyvmEcBT2a2+/EcyMFl2+z9N2QQAoUXrTp66hVFApGn+DyvmEcBT2a2+/EcyMFl2+z9N2QQAoUXrTp66hVFApGn+DyvmEcBT2a2+/EcyMFl2+z9N2QQAoUXrTp66hVFApGn+DyvmEcBT2a2+/EcyMF" type="audio/wav">
+  </audio>
+  
+  <div class="container" id="main">
+    <h1>🌍 Welcome to EcoBot</h1>
+    <p>Enter your email to begin:</p>
+    <input id="email" placeholder="Your email..." /><br />
+    <button onclick="startApp()">Start EcoBot</button>
+
+    <div class="infoBox hidden" id="infoBox">
+      <h2>📖 EcoBot Information</h2>
+      <p>Made by Mir Sodis Mirzada & ChatGPT • Open 8 AM to 8 PM • Notebook allowed</p>
+      <p>This app helps you learn about protecting the planet through quizzes, challenges, and AI chat. Gain coins, level up, and compete on the leaderboard!</p>
+      <button onclick="closeInfo()">Got it! Show Leaderboard</button>
+    </div>
+
+    <div class="leaderbox hidden" id="leaderbox">
+      <h2>🏆 Leaderboard</h2>
+      <ul id="leaderList"></ul>
+      <button onclick="showChat()">Chat with EcoBot AI</button>
+    </div>
+
+    <div class="chatbox hidden" id="chatbox">
+      <h2>🤖 EcoBot-AI (Level <span id="levelNum">1</span>) <span id="proStatus"></span></h2>
+      <p id="aiText">Hello, hero! Ready to save the planet?</p>
+      <input id="userInput" placeholder="Ask or type 'start quiz'..." />
+      <button onclick="talkAI()">Send</button>
+      <button onclick="showQuiz()">Start Quiz</button>
+      <button onclick="showProFeatures()" id="proBtn">🌟 Pro Features</button>
+      <button onclick="showLeaderboard()">Back to Leaderboard</button>
+    </div>
+
+    <!-- Pro Features Panel -->
+    <div class="probox hidden" id="probox">
+      <h2>🌟 EcoBot Pro - $25/month</h2>
+      <div id="proContent">
+        <div class="pro-features">
+          <h3>✨ Pro Features:</h3>
+          <ul>
+            <li>🎮 Create custom eco-games</li>
+            <li>❓ Create custom quiz questions</li>
+            <li>🎨 Advanced customization</li>
+            <li>📊 Detailed analytics</li>
+            <li>🚀 Priority AI responses</li>
+            <li>🏆 Pro badge on leaderboard</li>
+          </ul>
+          <button onclick="upgradeToPro()" id="upgradeBtn" class="pro-upgrade-btn">Upgrade to Pro - $25/month</button>
+        </div>
+        
+        <!-- Pro User Dashboard -->
+        <div class="pro-dashboard hidden" id="proDashboard">
+          <h3>🎮 Create Content</h3>
+          <div class="pro-actions">
+            <button onclick="showGameCreator()">Create Game</button>
+            <button onclick="showQuestionCreator()">Create Question</button>
+            <button onclick="showMyContent()">My Content</button>
+          </div>
+        </div>
+      </div>
+      <button onclick="showChat()">Back to Chat</button>
+    </div>
+
+    <!-- Game Creator -->
+    <div class="gamecreator hidden" id="gamecreator">
+      <h2>🎮 Create Your Eco-Game</h2>
+      <input id="gameName" placeholder="Game name..." />
+      <select id="gameType">
+        <option value="quiz">Quiz Game</option>
+        <option value="memory">Memory Game</option>
+        <option value="adventure">Adventure Game</option>
+      </select>
+      <textarea id="gameDescription" placeholder="Game description..."></textarea>
+      <button onclick="createGame()">Create Game</button>
+      <button onclick="showProFeatures()">Back</button>
+    </div>
+
+    <!-- Question Creator -->
+    <div class="questioncreator hidden" id="questioncreator">
+      <h2>❓ Create Quiz Question</h2>
+      <input id="questionTopic" placeholder="Topic (e.g., Climate Change)..." />
+      <textarea id="questionText" placeholder="Your question..."></textarea>
+      <textarea id="questionAnswer" placeholder="Correct answer..."></textarea>
+      <button onclick="createQuestion()">Create Question</button>
+      <button onclick="showProFeatures()">Back</button>
+    </div>
+
+    <!-- My Content -->
+    <div class="mycontent hidden" id="mycontent">
+      <h2>📚 My Created Content</h2>
+      <div id="myGames">
+        <h3>🎮 My Games</h3>
+        <div id="gamesList"></div>
+      </div>
+      <div id="myQuestions">
+        <h3>❓ My Questions</h3>
+        <div id="questionsList"></div>
+      </div>
+      <button onclick="showProFeatures()">Back</button>
+    </div>
+
+    <div class="quizbox hidden" id="quizbox">
+      <h2>📚 Quiz - Choose Difficulty (Level <span id="levelNumQuiz">1</span>)</h2>
+      <select id="difficulty">
+        <option value="easy">Easy (1 coin)</option>
+        <option value="middle">Middle (5 coins)</option>
+        <option value="hard">Hard (10 coins)</option>
+      </select><br />
+      <textarea id="answerBox" placeholder="How would you help the Earth?"></textarea><br />
+      <button onclick="submitAnswer()">Submit Answer</button>
+      <p id="reward"></p>
+      <button onclick="showChat()">Back to Chat</button>
+    </div>
+
+    <div class="createbox hidden" id="createbox">
+      <h2>🧠 Create Your Own Question</h2>
+      <input id="qTopic" placeholder="Topic (e.g. Water)" /><br />
+      <input id="qText" placeholder="Type your question here" /><br />
+      <input id="qAnswer" placeholder="Correct answer" /><br />
+      <button onclick="submitQuestion()">Submit Question</button>
+      <p id="qConfirm"></p>
+    </div>
+
+    <div class="probox hidden" id="probox">
+      <h2>💎 EcoBot Pro - $25/month</h2>
+      <ul>
+        <li>Create your own games</li>
+        <li>Build custom themes (100+)</li>
+        <li>Access multiplayer battles</li>
+        <li>Extra AI power & lessons</li>
+      </ul>
+      <button onclick="alert('Payment system coming soon')">Upgrade</button>
+    </div>
+
+    <div class="chatroom hidden" id="chatroom">
+      <h2>💬 Friend Chat</h2>
+      <input placeholder="Friend username" id="friendName" /><br />
+      <textarea placeholder="Message..." id="friendMsg"></textarea><br />
+      <button onclick="sendMessage()">Send Message</button>
+      <p id="msgStatus"></p>
+    </div>
+
+    <div class="settingsbox hidden" id="settings">
+      <h2>⚙️ Account Settings</h2>
+      <button onclick="alert('Change feature coming soon')">Change Email</button>
+      <button onclick="confirmDelete()">Delete Account</button>
+    </div>
+
+    <div class="footer">
+      Made by Mir Sodis Mirzada & ChatGPT • Notebook allowed • Theme builder is Pro-only • Open 8 AM to 8 PM
+    </div>
+  </div>
+
+<script>
+  // State variables
+  let coins = 0;
+  let level = 1;
+  let playerName = '';
+  let isPlaying = false;
+  let currentTheme = 'eco';
+  
+  // Initialize app
+  document.addEventListener('DOMContentLoaded', function() {
+    createParticles();
+    loadTheme();
+  });
+  
+  // Theme switching
+  function switchTheme(theme) {
+    currentTheme = theme;
+    document.body.setAttribute('data-theme', theme);
+    localStorage.setItem('ecobot-theme', theme);
+    updateParticles();
+  }
+  
+  function loadTheme() {
+    const savedTheme = localStorage.getItem('ecobot-theme') || 'eco';
+    switchTheme(savedTheme);
+  }
+  
+  // Music controls
+  function toggleMusic() {
+    const audio = document.getElementById('backgroundMusic');
+    const btn = document.getElementById('musicBtn');
+    
+    if (isPlaying) {
+      audio.pause();
+      btn.innerHTML = '🎵';
+      isPlaying = false;
+    } else {
+      // Create a simple ambient sound using Web Audio API
+      playAmbientSound();
+      btn.innerHTML = '⏸️';
+      isPlaying = true;
+    }
+  }
+  
+  function setVolume(value) {
+    const audio = document.getElementById('backgroundMusic');
+    audio.volume = value / 100;
+  }
+  
+  // Create ambient sound using Web Audio API
+  let audioContext;
+  let oscillator;
+  let gainNode;
+  
+  function playAmbientSound() {
+    if (audioContext) {
+      stopAmbientSound();
+    }
+    
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    
+    // Create multiple oscillators for a richer sound
+    const frequencies = [220, 330, 440, 550]; // Nature-like frequencies
+    const oscillators = [];
+    
+    frequencies.forEach((freq, index) => {
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, audioContext.currentTime);
+      
+      // Create a gentle, ambient volume
+      gain.gain.setValueAtTime(0, audioContext.currentTime);
+      gain.gain.linearRampToValueAtTime(0.02 / frequencies.length, audioContext.currentTime + 2);
+      
+      // Add some gentle frequency modulation
+      const lfo = audioContext.createOscillator();
+      const lfoGain = audioContext.createGain();
+      lfo.frequency.setValueAtTime(0.5 + index * 0.1, audioContext.currentTime);
+      lfoGain.gain.setValueAtTime(5, audioContext.currentTime);
+      
+      lfo.connect(lfoGain);
+      lfoGain.connect(osc.frequency);
+      
+      osc.connect(gain);
+      gain.connect(audioContext.destination);
+      
+      osc.start();
+      lfo.start();
+      
+      oscillators.push({ osc, lfo, gain });
+    });
+    
+    // Store for cleanup
+    window.ambientOscillators = oscillators;
+  }
+  
+  function stopAmbientSound() {
+    if (window.ambientOscillators) {
+      window.ambientOscillators.forEach(({ osc, lfo, gain }) => {
+        gain.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.5);
+        setTimeout(() => {
+          osc.stop();
+          lfo.stop();
+        }, 500);
+      });
+      window.ambientOscillators = null;
+    }
+    if (audioContext) {
+      setTimeout(() => {
+        audioContext.close();
+        audioContext = null;
+      }, 600);
+    }
+  }
+  
+  // Particle system
+  function createParticles() {
+    const container = document.getElementById('particles');
+    const particleCount = 50;
+    
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      
+      // Random position
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.top = Math.random() * 100 + '%';
+      
+      // Random animation delay
+      particle.style.animationDelay = Math.random() * 6 + 's';
+      particle.style.animationDuration = (4 + Math.random() * 4) + 's';
+      
+      container.appendChild(particle);
+    }
+  }
+  
+  function updateParticles() {
+    // Particles automatically update via CSS variables
+    // This function can be expanded for theme-specific particle behaviors
+  }
+  
+  // Load/save leaderboard in localStorage (real user data only)
+  function loadLeaderboard() {
+    const saved = localStorage.getItem('ecobotLeaderboard');
+    return saved ? JSON.parse(saved) : {};
+  }
+
+  function saveLeaderboard(data) {
+    localStorage.setItem('ecobotLeaderboard', JSON.stringify(data));
+  }
+
+  let leaderboard = loadLeaderboard();
+
+  // Update leaderboard UI and save data
+  function updateLeaderboard() {
+    leaderboard[playerName] = { coins, level };
+    saveLeaderboard(leaderboard);
+    const sorted = Object.entries(leaderboard)
+      .sort((a,b) => b[1].coins - a[1].coins);
+    document.getElementById("leaderList").innerHTML = sorted.map(
+      ([name, data], index) => `<li>${index + 1}. ${name} - ${data.coins} coins - Level ${data.level}</li>`
+    ).join('');
+  }
+
+  // Show/hide helpers
+  function showElement(id) { document.getElementById(id).classList.remove('hidden'); }
+  function hideElement(id) { document.getElementById(id).classList.add('hidden'); }
+
+  // Start EcoBot after email entered
+  function startApp() {
+    const hour = new Date().getHours();
+    if(hour < 8 || hour >= 20){
+      alert("⏰ EcoBot is only open between 8 AM and 8 PM.");
+      return;
+    }
+    const email = document.getElementById("email").value.trim();
+    if(!email.includes("@")){
+      alert("Please enter a valid email.");
+      return;
+    }
+    playerName = email.split("@")[0];
+    
+    // Load leaderboard fresh
+    leaderboard = loadLeaderboard();
+    // Add new player if not present
+    if(!leaderboard[playerName]){
+      leaderboard[playerName] = { coins: 0, level: 1 };
+    }
+    coins = leaderboard[playerName].coins;
+    level = leaderboard[playerName].level;
+    
+    updateLeaderboard();
+    
+    // Hide login, show info first
+    hideElement('email');
+    hideElement('main').querySelector('button').style.display = 'none';
+    hideElement('main').querySelector('p').style.display = 'none';
+    
+    showElement('infoBox');
+  }
+
+  // Close info and show leaderboard
+  function closeInfo(){
+    hideElement('infoBox');
+    showElement('leaderbox');
+  }
+
+  // Show leaderboard only
+  function showLeaderboard(){
+    hideElement('chatbox');
+    hideElement('quizbox');
+    hideElement('createbox');
+    hideElement('probox');
+    hideElement('chatroom');
+    hideElement('settings');
+    
+    showElement('leaderbox');
+  }
+
+  // Show chat with AI and level info
+  function showChat(){
+    hideElement('leaderbox');
+    hideElement('quizbox');
+    
+    showElement('chatbox');
+    document.getElementById('levelNum').textContent = level;
+  }
+
+  // Show quiz UI
+  function showQuiz(){
+    hideElement('chatbox');
+    hideElement('leaderbox');
+    
+    showElement('quizbox');
+    document.getElementById('levelNumQuiz').textContent = level;
+    document.getElementById('reward').textContent = '';
+    document.getElementById('answerBox').value = '';
+  }
+
+  // Basic AI chat function with fallback
+  const gpt4allURL = 'http://localhost:4891/v1/chat/completions';
+  const replitBackupURL = 'https://363c6ad6-5c57-4f19-8ce5-eff8a3a4a5de-00-lms7f6l2lxs9.janeway.replit.dev/ask';
+
+  async function sendToAI(message) {
+    try {
+      const response = await fetch(gpt4allURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'llama-3.8b-instruct',
+          messages: [{ role: 'user', content: message }]
+        })
+      });
+      const data = await response.json();
+      return data.choices[0].message.content;
+    } catch (error) {
+      console.warn("GPT4All failed. Trying Replit backup...");
+      try {
+        const response = await fetch(replitBackupURL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ input: message })
+        });
+        const data = await response.json();
+        return data.reply || "🤖 Both AIs are offline right now.";
+      } catch {
+        return "🤖 Both AIs are offline right now.";
+      }
+    }
+  }
+
+  async function talkAI() {
+    const userInput = document.getElementById('userInput').value.trim();
+    if(!userInput){
+      alert("Please type a message.");
+      return;
+    }
+    const aiText = document.getElementById('aiText');
+    aiText.textContent = "Thinking...";
+    const reply = await sendToAI(userInput);
+    aiText.textContent = reply;
+    document.getElementById('userInput').value = '';
+  }
+
+  // Quiz answer submission and rewards
+  function submitAnswer() {
+    const difficulty = document.getElementById("difficulty").value;
+    const answer = document.getElementById("answerBox").value.toLowerCase();
+    let reward = 0;
+    // Example accepted answers (expandable)
+    const goodKeywords = ["off", "short", "recycle", "plant", "clean", "solar", "energy", "bike"];
+    const matched = goodKeywords.some(word => answer.includes(word));
+    if(matched){
+      if(difficulty === "easy") reward = 1;
+      if(difficulty === "middle") reward = 5;
+      if(difficulty === "hard") reward = 10;
+      
+      coins += reward;
+      
+      // Level up every 20 coins
+      const oldLevel = level;
+      level = Math.floor(coins / 20) + 1;
+      if(level > oldLevel){
+        alert(`🎉 Level Up! You're now level ${level}!`);
+      }
+      
+      document.getElementById("reward").textContent = `✅ +${reward} coins! Total: ${coins}`;
+      updateLeaderboard();
+    } else {
+      document.getElementById("reward").textContent = "❌ Try a better answer. Use your notebook!";
+    }
+  }
+
+  // Question submission placeholder
+  function submitQuestion() {
+    const topic = document.getElementById("qTopic").value.trim();
+    const q = document.getElementById("qText").value.trim();
+    const a = document.getElementById("qAnswer").value.trim();
+    if(topic && q && a){
+      document.getElementById("qConfirm").textContent = "✅ Question submitted for review!";
+      // Here you could send to backend for review
+    } else {
+      document.getElementById("qConfirm").textContent = "❌ Please fill all fields.";
+    }
+  }
+
+  // Friend chat placeholder (not connected)
+  function sendMessage() {
+    const name = document.getElementById("friendName").value.trim();
+    const msg = document.getElementById("friendMsg").value.trim();
+    if(name && msg){
+      document.getElementById("msgStatus").textContent = `📨 Message sent to ${name} (simulated)`;
+      // Could connect to backend for real chat
+    } else {
+      document.getElementById("msgStatus").textContent = "❌ Enter a name and message";
+    }
+  }
+
+  // Account delete (local)
+  function confirmDelete() {
+    if(confirm("Are you sure you want to delete your account? This will clear your coins and level.")){
+      delete leaderboard[playerName];
+      saveLeaderboard(leaderboard);
+      alert("Account deleted locally. Reloading.");
+      location.reload();
+    }
+  }
+</script>
+</body>
+</html>
